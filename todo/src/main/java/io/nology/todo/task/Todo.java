@@ -2,8 +2,6 @@ package io.nology.todo.task;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import io.nology.todo.category.Category;
 import io.nology.todo.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -20,7 +18,6 @@ import jakarta.persistence.TemporalType;
 public class Todo extends BaseEntity {
 
     public Todo() {
-
     }
 
     @Column
@@ -29,20 +26,12 @@ public class Todo extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    // @ManyToOne
-    // @JoinColumn(name = "category_id")
-    // @JsonIgnoreProperties("todos")
-    // private Category category;
-
-    @Column
-    private String category;
+   @ManyToOne
+   @JoinColumn(name = "category_id")
+   private Category category;
 
     @Column
     private String priority;
-
-    @Column
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
 
     @Column
     private boolean completed;
@@ -50,10 +39,6 @@ public class Todo extends BaseEntity {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date completedAt;
-    
-    @Column
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
 
     public String getTask() {
         return task;
@@ -63,29 +48,17 @@ public class Todo extends BaseEntity {
         this.task = task;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
 
     public String getDescription() {
         return description;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
     }
 
     public void setDescription(String description) {
@@ -109,22 +82,10 @@ public class Todo extends BaseEntity {
         this.completed = completed;
     }
 
-    // public Category getCategory() {
-    // return category;
-    // }
-
-    // public void setCategory(Category category) {
-    // this.category = category;
-    // }
-
     public Date getCompletedAt() {
         return completedAt;
     }
 
-    
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     public void setCompletedAt(Date completedAt) {
         this.completedAt = completedAt;

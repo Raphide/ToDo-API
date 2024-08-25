@@ -2,6 +2,7 @@ package io.nology.todo.task;
 
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 import jakarta.validation.constraints.NotNull;
@@ -13,8 +14,9 @@ public class CreateTodoDTO {
     private String task;
     @NotBlank
     private String description;
-    @NotBlank
-    private String category;
+    @NotNull
+    @Min(1)
+    private Long categoryId;
     @NotNull
     private String priority;
 
@@ -26,18 +28,12 @@ public class CreateTodoDTO {
         return description;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
     public String getPriority() {
         return priority;
-    }
-
-    @Override
-    public String toString() {
-        return "CreateTodoDTO [task=" + task + ", description=" + description + ", category=" + category + ", priority="
-                + priority + "]";
     }
 
 }

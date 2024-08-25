@@ -2,25 +2,25 @@
   {
     "task": "Test1",
     "description": "Test that API is working",
-    "category": "code",
+    "category": "4",
     "priority": "High"
   },
   {
     "task": "Test2",
     "description": "More testing of the API",
-    "category": "code",
+    "category": "2",
     "priority": "Low"
   },
   {
     "task": "Test3",
     "description": "Creating this beautiful API",
-    "category": "art",
+    "category": "1",
     "priority": "Medium"
   },
   {
     "task": "Test4",
     "description": "perfecting the testing",
-    "category": "code",
+    "category": "1",
     "priority": "High"
   }
 ]
