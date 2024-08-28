@@ -2,6 +2,8 @@ package io.nology.todo.category;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.nology.todo.common.BaseEntity;
 import io.nology.todo.task.Todo;
 import jakarta.persistence.Column;
@@ -13,15 +15,15 @@ import jakarta.persistence.Table;
 @Table(name = "categories")
 public class Category extends BaseEntity {
 
-    public Category() {
-
-    }
-
     @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnoreProperties("category")
     private List<Todo> todos;
+
+    public Category() {
+    }
 
     public String getName() {
         return name;

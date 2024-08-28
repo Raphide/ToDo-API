@@ -2,6 +2,8 @@ package io.nology.todo.task;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.nology.todo.category.Category;
 import io.nology.todo.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -19,6 +21,7 @@ public class Todo extends BaseEntity {
 
     public Todo() {
     }
+    
 
     @Column
     private String task;
@@ -28,6 +31,7 @@ public class Todo extends BaseEntity {
 
    @ManyToOne
    @JoinColumn(name = "category_id")
+   @JsonIgnoreProperties("todos")
    private Category category;
 
     @Column
@@ -91,15 +95,10 @@ public class Todo extends BaseEntity {
         this.completedAt = completedAt;
     }
 
-    @PreUpdate
+    // @PreUpdate
     public void onComplete() {
         completedAt = new Date();
     }
 
-    @Override
-    public String toString() {
-        return "Todo [task=" + task + ", description=" + description + ", category=" + category + ", completedAt="
-                + completedAt + ", getId()=" + getId() + ", getCreatedAt()=" + getCreatedAt() + "]";
-    }
 
 }

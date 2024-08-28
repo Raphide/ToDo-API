@@ -33,7 +33,6 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<Todo> createTodo(@Valid @RequestBody CreateTodoDTO data) throws Exception {
         Todo createdTodo = this.todoService.createTodo(data);
-        System.out.println(createdTodo);
         return new ResponseEntity<Todo>(createdTodo, HttpStatus.CREATED);
     }
 
