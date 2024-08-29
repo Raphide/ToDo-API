@@ -51,6 +51,24 @@ newTodo.setCreatedAt(new Date());
             return result;
         }
         Todo foundTodo = result.get();
+        mapper.map(data, foundTodo);
+        if (data.getCategoryId() != null) {
+            Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
+            foundTodo.setCategory(categoryResult.get());
+        }
+        // if (data.getTask() != null) {
+        //     foundTodo.setTask(data.getTask().trim());
+        // }
+        // if (data.getDescription() != null) {
+        //     foundTodo.setDescription(data.getDescription().trim());
+        // }
+        // if (data.getCategory() != null) {
+        //     foundTodo.setCategory(data.getCategory().trim());
+        // }
+        // if (data.getPriority() != null) {
+        // foundTodo.setPriority(data.getPriority().trim());
+        // }
+        // foundTodo.setUpdatedAt(new Date());
         Todo updatedTodo = this.repo.save(foundTodo);
         return Optional.of(updatedTodo);
     }
