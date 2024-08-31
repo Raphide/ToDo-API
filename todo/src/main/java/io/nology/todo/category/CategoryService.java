@@ -36,4 +36,15 @@ public class CategoryService {
         return this.repo.findById(categoryId);
     }
 
+    public boolean deleteById(Long id) {
+        Optional<Category> result = this.findById(id);
+        if (result.isEmpty()) {
+            return false;
+        }
+        this.repo.delete(result.get());
+        return true;
+    }
+
+
+
 }

@@ -17,7 +17,8 @@ public class UpdateTodoDTO {
     @Min(1)
     private Long categoryId;
    
-    @Pattern(regexp = ".*\\S.*", message = "Category cannot be empty")
+    // @Pattern(regexp = ".*\\S.*", message = "Priority cannot be empty")
+  
     private String priority;
 
     @Override
@@ -25,8 +26,6 @@ public class UpdateTodoDTO {
         return "UpdateTodoDTO [task=" + task + ", description=" + description + ", category=" + categoryId + ", priority="
                 + priority + "]";
     }
-
-    
 
     public String getTask() {
         return task;
