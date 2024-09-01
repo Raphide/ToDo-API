@@ -14,11 +14,11 @@ public class UpdateTodoDTO {
     @Pattern(regexp = ".*\\S.*", message = "Description cannot be empty")
     private String description;
   
-    @Min(1)
+    @Pattern(regexp = ".*\\S.*", message = "Must choose a category")
     private Long categoryId;
    
     // @Pattern(regexp = ".*\\S.*", message = "Priority cannot be empty")
-  
+    @Pattern(regexp = ".*\\S.*", message = "Must choose a priority")
     private String priority;
 
     @Override

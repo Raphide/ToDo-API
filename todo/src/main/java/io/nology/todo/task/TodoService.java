@@ -26,14 +26,32 @@ public class TodoService {
 
     public Todo createTodo(@Valid CreateTodoDTO data) throws Exception {
         Todo newTodo = mapper.map(data, Todo.class);
-Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
-if(categoryResult.isEmpty()){
-    throw new Exception("Category does not exist");
-}
-newTodo.setCategory(categoryResult.get());
-// newTodo.setUpdatedAt(new Date());
-newTodo.setCreatedAt(new Date());
+        Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
+        if (categoryResult.isEmpty()) {
+            throw new Exception("Category does not exist");
+        }
+        newTodo.setCategory(categoryResult.get());
+        // newTodo.setUpdatedAt(new Date());
+        newTodo.setCreatedAt(new Date());
         newTodo.setCompleted(false);
+        newTodo.setIsArchived(false);
+        return this.repo.save(newTodo);
+    }
+
+    public Todo duplicateTodo(Long id) throws Exception {
+        Optional<Todo> result = this.findById(id);
+        if (result.isEmpty()) {
+            throw new Exception("Todo does not exist what id " + id);
+        } 
+        Todo foundTodo = result.get();
+        Todo newTodo = new Todo();
+        newTodo.setTask(foundTodo.getTask());
+        newTodo.setDescription(foundTodo.getDescription());
+        newTodo.setPriority(foundTodo.getPriority());        
+        newTodo.setCategory(foundTodo.getCategory());
+        newTodo.setCreatedAt(new Date());
+        newTodo.setCompleted(false);
+        newTodo.setIsArchived(false);
         return this.repo.save(newTodo);
     }
 
@@ -45,7 +63,7 @@ newTodo.setCreatedAt(new Date());
         return this.repo.findById(id);
     }
 
-    public Optional<Todo> updateById(Long id, @Valid UpdateTodoDTO data) {
+    public Optional<Todo> updateById(Long id, @Valid UpdateTodoDTO data) throws Exception {
         Optional<Todo> result = this.findById(id);
         if (result.isEmpty()) {
             return result;
@@ -54,16 +72,19 @@ newTodo.setCreatedAt(new Date());
         mapper.map(data, foundTodo);
         if (data.getCategoryId() != null) {
             Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
+            if (categoryResult.isEmpty()) {
+                throw new Exception("Category does not exist");
+            }
             foundTodo.setCategory(categoryResult.get());
         }
         // if (data.getTask() != null) {
-        //     foundTodo.setTask(data.getTask().trim());
+        // foundTodo.setTask(data.getTask().trim());
         // }
         // if (data.getDescription() != null) {
-        //     foundTodo.setDescription(data.getDescription().trim());
+        // foundTodo.setDescription(data.getDescription().trim());
         // }
         // if (data.getCategory() != null) {
-        //     foundTodo.setCategory(data.getCategory().trim());
+        // foundTodo.setCategory(data.getCategory().trim());
         // }
         // if (data.getPriority() != null) {
         // foundTodo.setPriority(data.getPriority().trim());
@@ -98,6 +119,7 @@ newTodo.setCreatedAt(new Date());
         }
         Todo foundTodo = result.get();
         foundTodo.setCompleted(true);
+        foundTodo.setIsArchived(true);
         foundTodo.setCompletedAt(new Date());
         Todo updatedTodo = this.repo.save(foundTodo);
         return Optional.of(updatedTodo);
@@ -106,6 +128,17 @@ newTodo.setCreatedAt(new Date());
 
     public List<Todo> findByPriority(String priority) {
         return this.repo.findByPriority(priority);
+    }
+
+    public Optional<Todo> archiveById(Long id) {
+        Optional<Todo> result = this.findById(id);
+        if (result.isEmpty()) {
+            return result;
+        }
+        Todo foundTodo = result.get();
+        foundTodo.setIsArchived(!foundTodo.getIsArchived());
+        Todo updatedTodo = this.repo.save(foundTodo);
+        return Optional.of(updatedTodo);
     }
 
 }

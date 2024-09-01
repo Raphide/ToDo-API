@@ -18,6 +18,7 @@ public class CreateTodoDTO {
     @Min(1)
     private Long categoryId;
     @NotNull
+    @Length(min = 1)
     private String priority;
 
     public String getTask() {

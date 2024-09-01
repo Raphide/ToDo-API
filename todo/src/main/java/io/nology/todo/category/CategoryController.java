@@ -7,6 +7,7 @@ import io.nology.todo.common.exceptions.NotFoundException;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,13 @@ return new ResponseEntity<>(newCategory, HttpStatus.OK);
     public ResponseEntity<List<Category>> getAllCategories() {
        List<Category> allCategories = this.categoryService.findAll();
        return new ResponseEntity<List<Category>>(allCategories, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) throws NotFoundException{
+        Optional<Category> result = this.categoryService.findById(id);
+        Category foundCategory = result.orElseThrow(() -> new NotFoundException("Could not find category with id " + id));
+        return new ResponseEntity<>(foundCategory, HttpStatus.OK);
     }
     
     @DeleteMapping("/{id}")

@@ -32,6 +32,12 @@ public class TodoController {
         return new ResponseEntity<Todo>(createdTodo, HttpStatus.CREATED);
     }
 
+    @PostMapping("/duplicate/{id}")
+    public ResponseEntity<Todo> duplicateTodo(@PathVariable Long id) throws Exception {
+        Todo duplicateTodo = this.todoService.duplicateTodo(id);
+        return new ResponseEntity<Todo>(duplicateTodo, HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List<Todo>> findAllTodos() {
         List<Todo> todos = this.todoService.findAll();
@@ -55,7 +61,7 @@ public class TodoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Todo> updateTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
-            throws NotFoundException {
+            throws Exception {
         Optional<Todo> result = this.todoService.updateById(id, data);
         Todo foundTodo = result.orElseThrow(() -> new NotFoundException("Could not find task with id " + id));
         return new ResponseEntity<>(foundTodo, HttpStatus.OK);
@@ -67,6 +73,15 @@ public class TodoController {
         Todo foundTodo = result.orElseThrow(() -> new NotFoundException("Could not find task with id " + id));
         return new ResponseEntity<>(foundTodo, HttpStatus.OK);
     }
+
+    @PatchMapping("/archive/{id}")
+    public ResponseEntity<Todo> archiveTodo(@PathVariable Long id) throws NotFoundException{
+        Optional<Todo> result = this.todoService.archiveById(id);
+        Todo foundTodo = result.orElseThrow(() -> new NotFoundException("Could not find task with id " + id));
+        return new ResponseEntity<>(foundTodo, HttpStatus.OK);
+    }
+    
+
 
     // @DeleteMapping("/{id}")
     // public ResponseEntity<Todo> deleteTodoById(@PathVariable Long id) throws

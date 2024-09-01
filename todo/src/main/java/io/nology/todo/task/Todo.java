@@ -41,6 +41,9 @@ public class Todo extends BaseEntity {
     private boolean completed;
 
     @Column
+    private boolean isArchived;
+
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date completedAt;
 
@@ -75,6 +78,14 @@ public class Todo extends BaseEntity {
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public boolean getIsArchived(){
+        return isArchived;
+    }
+
+    public void setIsArchived(boolean isArchived){
+        this.isArchived = isArchived;
     }
 
 
