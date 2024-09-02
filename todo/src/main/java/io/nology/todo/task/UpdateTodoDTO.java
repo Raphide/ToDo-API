@@ -2,7 +2,6 @@ package io.nology.todo.task;
 
 import org.hibernate.validator.constraints.Length;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
 public class UpdateTodoDTO {
@@ -14,7 +13,7 @@ public class UpdateTodoDTO {
     @Pattern(regexp = ".*\\S.*", message = "Description cannot be empty")
     private String description;
   
-    @Pattern(regexp = ".*\\S.*", message = "Must choose a category")
+    // @Pattern(regexp = ".*\\S.*", message = "Must choose a category")
     private Long categoryId;
    
     // @Pattern(regexp = ".*\\S.*", message = "Priority cannot be empty")

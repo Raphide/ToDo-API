@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import io.nology.todo.category.Category;
 import io.nology.todo.category.CategoryService;
+import io.nology.todo.common.ValidationErrors;
 import jakarta.validation.Valid;
 
 @Service
@@ -25,10 +26,11 @@ public class TodoService {
     private ModelMapper mapper;
 
     public Todo createTodo(@Valid CreateTodoDTO data) throws Exception {
+        ValidationErrors errors = new ValidationErrors();
         Todo newTodo = mapper.map(data, Todo.class);
         Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
         if (categoryResult.isEmpty()) {
-            throw new Exception("Category does not exist");
+            errors.addError("category", String.format("Category with is %s does not exist", data.getCategoryId()));
         }
         newTodo.setCategory(categoryResult.get());
         // newTodo.setUpdatedAt(new Date());
@@ -77,19 +79,6 @@ public class TodoService {
             }
             foundTodo.setCategory(categoryResult.get());
         }
-        // if (data.getTask() != null) {
-        // foundTodo.setTask(data.getTask().trim());
-        // }
-        // if (data.getDescription() != null) {
-        // foundTodo.setDescription(data.getDescription().trim());
-        // }
-        // if (data.getCategory() != null) {
-        // foundTodo.setCategory(data.getCategory().trim());
-        // }
-        // if (data.getPriority() != null) {
-        // foundTodo.setPriority(data.getPriority().trim());
-        // }
-        // foundTodo.setUpdatedAt(new Date());
         Todo updatedTodo = this.repo.save(foundTodo);
         return Optional.of(updatedTodo);
     }
