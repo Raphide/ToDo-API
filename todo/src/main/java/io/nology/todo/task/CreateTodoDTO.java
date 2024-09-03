@@ -18,8 +18,8 @@ public class CreateTodoDTO {
     @NotNull
     private Long categoryId;
     @NotNull
-    @Length(min = 1)
-    @Pattern(regexp = ".*\\S.*", message = "Must choose a priority")
+    // @Length(min = 1)
+    // @Pattern(regexp = ".*\\S.*", message = "Must choose a priority")
     private String priority;
 
     public String getTask() {

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import io.nology.todo.category.Category;
 import io.nology.todo.category.CategoryService;
 import io.nology.todo.common.ValidationErrors;
+import io.nology.todo.common.exceptions.ServiceValidationException;
 import jakarta.validation.Valid;
 
 @Service
@@ -30,10 +31,21 @@ public class TodoService {
         Todo newTodo = mapper.map(data, Todo.class);
         Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
         if (categoryResult.isEmpty()) {
-            errors.addError("category", String.format("Category with is %s does not exist", data.getCategoryId()));
+            errors.addError("category", String.format("Category with id %s does not exist", data.getCategoryId()));
+        }
+        if(data.getTask().isEmpty()){
+            errors.addError("task", "Todo requires a task");
+        }
+        if(data.getPriority().isEmpty()){
+            errors.addError("priority", "Todo requires a priority");
+        }
+        if(data.getDescription().isEmpty()){
+            errors.addError("description", "Todo requires a description");
+        }
+        if(errors.hasErrors()){
+            throw new ServiceValidationException(errors);
         }
         newTodo.setCategory(categoryResult.get());
-        // newTodo.setUpdatedAt(new Date());
         newTodo.setCreatedAt(new Date());
         newTodo.setCompleted(false);
         newTodo.setIsArchived(false);
@@ -43,7 +55,7 @@ public class TodoService {
     public Todo duplicateTodo(Long id) throws Exception {
         Optional<Todo> result = this.findById(id);
         if (result.isEmpty()) {
-            throw new Exception("Todo does not exist what id " + id);
+            throw new Exception("Todo does not exist with id " + id);
         } 
         Todo foundTodo = result.get();
         Todo newTodo = new Todo();
@@ -66,31 +78,26 @@ public class TodoService {
     }
 
     public Optional<Todo> updateById(Long id, @Valid UpdateTodoDTO data) throws Exception {
+        ValidationErrors errors = new ValidationErrors();
         Optional<Todo> result = this.findById(id);
         if (result.isEmpty()) {
-            return result;
-        }
+                throw new Exception("Todo does not exist with id " + id);
+            } 
         Todo foundTodo = result.get();
         mapper.map(data, foundTodo);
         if (data.getCategoryId() != null) {
             Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
             if (categoryResult.isEmpty()) {
-                throw new Exception("Category does not exist");
+                errors.addError("category", String.format("Category with id %s does not exist", data.getCategoryId()));
+            }
+            if(errors.hasErrors()){
+                throw new ServiceValidationException(errors);
             }
             foundTodo.setCategory(categoryResult.get());
         }
         Todo updatedTodo = this.repo.save(foundTodo);
         return Optional.of(updatedTodo);
     }
-
-    // public Optional<Todo> deleteById(Long id) {
-    // Optional<Todo> result = this.findById(id);
-    // if(result.isEmpty()){
-    // return result;
-    // }
-    // this.repo.delete(result.get());
-    // return result;
-    // }
 
     public boolean deleteById(Long id) {
         Optional<Todo> result = this.findById(id);
