@@ -29,4 +29,9 @@ public class ValidationErrors {
         this.errors.computeIfAbsent(field, f -> new ArrayList<>()).add(errorMessage);
     }
 
+    @Override
+    public String toString() {
+        return this.errors.toString();
+    }
+
 }

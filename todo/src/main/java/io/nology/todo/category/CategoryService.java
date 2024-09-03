@@ -25,10 +25,10 @@ public class CategoryService {
         if(repo.existsByName(data.getName().trim())){
             errors.addError("name", "category already exists");
         }
+        Category newCategory = mapper.map(data, Category.class);
         if(errors.hasErrors()){
             throw new ServiceValidationException(errors);
         }
-        Category newCategory = mapper.map(data, Category.class);
         return this.repo.save(newCategory);
 
     }

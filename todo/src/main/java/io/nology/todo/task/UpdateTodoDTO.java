@@ -13,7 +13,6 @@ public class UpdateTodoDTO {
     @Pattern(regexp = ".*\\S.*", message = "Description cannot be empty")
     private String description;
   
-
     private Long categoryId;
    
     @Pattern(regexp = ".*\\S.*", message = "Must choose a priority")

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.nology.todo.common.exceptions.NotFoundException;
+
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -18,38 +19,36 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
-
 @RestController
 @RequestMapping("categories")
 public class CategoryController {
 
-@Autowired
-private CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody CreateCategoryDTO data) throws Exception{
-Category newCategory = this.categoryService.createCategory(data);
-return new ResponseEntity<>(newCategory, HttpStatus.OK);
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody CreateCategoryDTO data) throws Exception {
+        Category newCategory = this.categoryService.createCategory(data);
+        return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
     };
-    
+
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
-       List<Category> allCategories = this.categoryService.findAll();
-       return new ResponseEntity<List<Category>>(allCategories, HttpStatus.OK);
+        List<Category> allCategories = this.categoryService.findAll();
+        return new ResponseEntity<List<Category>>(allCategories, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) throws NotFoundException{
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) throws NotFoundException {
         Optional<Category> result = this.categoryService.findById(id);
-        Category foundCategory = result.orElseThrow(() -> new NotFoundException("Could not find category with id " + id));
+        Category foundCategory = result
+                .orElseThrow(() -> new NotFoundException("Could not find category with id " + id));
         return new ResponseEntity<>(foundCategory, HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategoryById(@PathVariable Long id)
-    throws NotFoundException {
+            throws NotFoundException {
         boolean deleteSuccessful = this.categoryService.deleteById(id);
         if (deleteSuccessful == false) {
             throw new NotFoundException("could not find category with id " + id);

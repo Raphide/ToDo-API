@@ -20,7 +20,6 @@ public class Todo extends BaseEntity {
 
     public Todo() {
     }
-    
 
     @Column
     private String task;
@@ -45,6 +44,13 @@ public class Todo extends BaseEntity {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date completedAt;
+
+    //  // To be implemented
+    // @Column
+    // private boolean edited;
+    //  // To be implemented
+    // @Column
+    // private boolean duplicated;
 
     public String getTask() {
         return task;
