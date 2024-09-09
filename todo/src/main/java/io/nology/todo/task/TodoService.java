@@ -87,12 +87,12 @@ public class TodoService {
         mapper.map(data, foundTodo);
         if (data.getCategoryId() != null) {
             Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
-            if (categoryResult.isEmpty()) {
-                errors.addError("category", String.format("Category with id %s does not exist", data.getCategoryId()));
-            }
-            if(errors.hasErrors()){
-                throw new ServiceValidationException(errors);
-            }
+            // if (categoryResult.isEmpty()) {
+            //     errors.addError("category", String.format("Category with id %s does not exist", data.getCategoryId()));
+            // }
+            // if(errors.hasErrors()){
+            //     throw new ServiceValidationException(errors);
+            // }
             foundTodo.setCategory(categoryResult.get());
         }
         Todo updatedTodo = this.repo.save(foundTodo);

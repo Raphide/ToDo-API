@@ -14,6 +14,7 @@ public class CreateTodoDTO {
     private String description;
     @NotNull
     private Long categoryId;
+
     @NotNull
     private String priority;
 
@@ -33,4 +34,19 @@ public class CreateTodoDTO {
         return priority;
     }
 
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
 }

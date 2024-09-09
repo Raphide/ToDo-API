@@ -7,10 +7,10 @@ import jakarta.validation.constraints.Pattern;
 public class UpdateTodoDTO {
     
     @Pattern(regexp = ".*\\S.*", message = "Task Name cannot be empty")
-    @Length(min = 5)
+    @Length(min = 3)
     private String task;
   
-    @Pattern(regexp = ".*\\S.*", message = "Description cannot be empty")
+@Length(min = 3)
     private String description;
   
     private Long categoryId;

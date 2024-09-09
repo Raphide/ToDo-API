@@ -56,11 +56,15 @@
 
 ## Future Goals
 
--   Testing
+-   More testing
 
 ---
 
 ## Change logs
+
+### 09/09/2024 - Various changes to the Task Page
+
+-  Added unit and end-to-end tests
 
 ### 01/09/2024 - Various changes to the Task Page
 
