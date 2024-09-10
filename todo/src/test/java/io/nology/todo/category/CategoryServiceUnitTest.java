@@ -99,7 +99,7 @@ public class CategoryServiceUnitTest {
 
     @Test
     public void deleteById_failure() {
-        Long categoryId = 1L;
+        Long categoryId = 20L;
         Optional<Category> result = Optional.empty();
         when(repo.findById(categoryId)).thenReturn(result);
         Boolean isDeleted = categoryService.deleteById(categoryId);

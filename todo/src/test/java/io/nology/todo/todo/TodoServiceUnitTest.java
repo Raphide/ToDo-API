@@ -96,6 +96,27 @@ public class TodoServiceUnitTest {
         verify(repo, never()).save(any());
     }
 
+    @Test
+    public void deleteById_success() {
+        Long todoId = 1L;
+        Todo mockTodo = new Todo();
+        Optional<Todo> result = Optional.of(mockTodo);
+        when(repo.findById(todoId)).thenReturn(result);
+        Boolean isDeleted = service.deleteById(todoId);
+        assertEquals(true, isDeleted);
+        verify(repo).delete(mockTodo);
+    }
+
+    @Test
+    public void deleteById_failure(){
+        Long todoId =  20L;
+        Optional<Todo> result = Optional.empty();
+        when(repo.findById(todoId)).thenReturn(result);
+        Boolean isDeleted = service.deleteById(todoId);
+        assertEquals(false, isDeleted);
+        verify(repo, never()).delete(any());
+    }
+
     // @Test
     // void duplicateTodo_success() throws Exception {
     //     Long todoId = 1L;

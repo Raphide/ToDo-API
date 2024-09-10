@@ -180,7 +180,7 @@ public class TodoEndToEndTest {
         @Test
         public void duplicateTodo_invalidId_failure() {
                 Long id = 20L;
-                given().when().get("/todos/{id}", id).then().statusCode(HttpStatus.NOT_FOUND.value());
+                given().when().post("/todos/duplicate/{id}", id).then().statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
                 // // Above test should be okay as this is where the request would stop.
 
